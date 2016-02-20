@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from tasks.models import Task
-from .forms import NewTaskForm
+from social_todo.forms import NewTaskForm
 
 # Create your views here.
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .forms import RegistrationForm, LoginForm, NewTaskForm
+from social_todo.forms import RegistrationForm, LoginForm, NewTaskForm
 from django.contrib.auth.models import User
 from tasks.models import Task
 from django.db.models import Q
