@@ -1,14 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .forms import RegistrationForm
-from .forms import LoginForm
+from .forms import RegistrationForm, LoginForm, NewTaskForm
 from django.contrib.auth.models import User
+from tasks.models import Task
+from django.db.models import Q
 
 # Create your views here.
 
 def index(request):
     if request.user.is_authenticated():
-        return render(request, 'splash/index.html', {'user': request.user})
+        newTaskForm = NewTaskForm()
+        tasks = Task.objects.filter(Q(owner=request.user) | Q(collaborators=request.user))
+        return render(request, 'splash/index.html', {'user': request.user, 'new_task': newTaskForm, 'tasks': tasks})
 
     else:
         registrationForm = RegistrationForm()

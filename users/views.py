@@ -17,28 +17,32 @@ def login(request):
             auth_login(request, user)
             return HttpResponseRedirect('/')
         else:
-            return HttpResponse("you fucked up")
+            return HttpResponse("Error")
 
     else:
-        return HttpResponse("account doesn't exist")
+        registrationForm = RegistrationForm()
+        loginForm = LoginForm()
+        return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Invalid email address'})
 
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            user = User.objects.create_user(data['name'], data['email'], data['password'])
-            return HttpResponseRedirect('/')
+            if data['password'] == data['password_confirmation']:
+                user = User.objects.create_user(data['email'], '', data['password'], first_name=data['name'])
+                user = authenticate(username=data['email'], password=data['password'])
+                auth_login(request, user)
+                return HttpResponseRedirect('/')
+            else:
+                return HttpResponse('Passwords do not match')
+        else:
+            registrationForm = RegistrationForm()
+            loginForm = LoginForm()
+            return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Name too short'})
 
-    else:
-        registrationForm = RegistrationForm()
-        loginForm = LoginForm()
-
-    return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm})
+    return HttpResponseRedirect('/')
 
 def logout(request):
     auth_logout(request)
-    registrationForm = RegistrationForm()
-    loginForm = LoginForm()
-
-    return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm})
+    return HttpResponseRedirect('/')
