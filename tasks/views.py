@@ -15,9 +15,8 @@ def create(request):
             task.save()
 
             for x in range(1, 4):
-                if data['collaborator1'] != '':
-                    if User.objects.filter(username=data['collaborator' + str(x)]).exists():
-                        task.collaborators.add(User.objects.get(username=data['collaborator' + str(x)]))
+                if User.objects.filter(username=data['collaborator' + str(x)]).exists():
+                    task.collaborators.add(User.objects.get(username=data['collaborator' + str(x)]))
 
             task.save()
 
