@@ -68,6 +68,9 @@ TEMPLATES = [
         },
     },
 ]
+TEMPLATE_DIRS = [
+    os.path.join(BASE_DIR, 'templates')
+]
 
 WSGI_APPLICATION = 'social_todo.wsgi.application'
 

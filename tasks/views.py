@@ -2,11 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from tasks.models import Task
 from social_todo.forms import NewTaskForm
+from django.contrib.auth.models import User
 
 # Create your views here.
-
-def index(request):
-    return HttpResponse("Hello, world. You're at the tasks index.")
 
 def create(request):
     if request.method == 'POST':
@@ -15,9 +13,12 @@ def create(request):
             data = form.cleaned_data
             task = Task(owner=request.user, title=data['title'], description=data['description'])
             task.save()
-            task.collaborators.add(data['collaborator1'])
-            task.collaborators.add(data['collaborator2'])
-            task.collaborators.add(data['collaborator3'])
+
+            for x in range(1, 4):
+                if data['collaborator1'] != '':
+                    if User.objects.filter(username=data['collaborator' + str(x)]).exists():
+                        task.collaborators.add(User.objects.get(username=data['collaborator' + str(x)]))
+
             task.save()
 
     return HttpResponseRedirect('/')

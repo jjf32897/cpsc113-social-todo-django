@@ -18,7 +18,9 @@ def login(request):
                 auth_login(request, user)
                 return HttpResponseRedirect('/')
             else:
-                return HttpResponse("Error")
+                registrationForm = RegistrationForm()
+                loginForm = LoginForm()
+                return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Invalid password'})
 
         else:
             registrationForm = RegistrationForm()
