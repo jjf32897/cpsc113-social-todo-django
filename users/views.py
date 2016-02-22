@@ -6,8 +6,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 
-# Create your views here.
-
+# handles logging a user in
 def login(request):
     email = request.POST['email']
     password = request.POST['password']
@@ -32,6 +31,7 @@ def login(request):
         loginForm = LoginForm()
         return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Invalid email address'})
 
+# handles registering a user
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -65,10 +65,11 @@ def register(request):
         else:
             registrationForm = RegistrationForm()
             loginForm = LoginForm()
-            return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Name too short'})
+            return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Fill out all fields'})
 
     return HttpResponseRedirect('/')
 
+# logs users out
 def logout(request):
     auth_logout(request)
     return HttpResponseRedirect('/')

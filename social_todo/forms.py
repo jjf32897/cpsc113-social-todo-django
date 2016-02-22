@@ -1,5 +1,6 @@
 from django import forms
 
+# defines the registration, login and new task forms with styled placeholders
 class RegistrationForm(forms.Form):
     fl_name = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={'placeholder': 'Name', 'onfocus': "this.placeholder = ''", 'onblur': "this.placeholder = 'Name'"}))
     email = forms.EmailField(max_length=100, label='', widget=forms.TextInput(attrs={'placeholder': 'Email address', 'onfocus': "this.placeholder = ''", 'onblur': "this.placeholder = 'Email address'"}))

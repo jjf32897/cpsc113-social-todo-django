@@ -17,6 +17,7 @@
 <a href='/user/logout' class='logout'>Logout</a>
   <h1>Welcome, {{request.user.first_name}}</h1>
   <button id="new-task-button">&#43; Task</button>
+  <div>
     {% if tasks %}
       {% for task in tasks %}
         {% if task.isComplete %}
@@ -27,13 +28,6 @@
             {% csrf_token %}
             <button type="submit" name="toggle-task" class="toggle-task">Undo &#8634;</button>
           </form>
-          {% if task.owner == user %}
-            <form action='/task/delete/{{task.id}}' method="POST">
-              {% csrf_token %}
-              <button type="submit" name="delete-task" class="delete-task">Delete &#10005;</button>
-            </form>
-          {% endif %}
-          </div>
         {% else %}
           <div class="tasks-list-item">
           <h2><span class="task-title">{{task.title}}</span></h2>
@@ -42,18 +36,19 @@
             {% csrf_token %}
             <button type="submit" name="toggle-task" class="toggle-task">Complete &#10003;</button>
           </form>
-          {% if task.owner == user %}
-            <form action='/task/delete/{{task.id}}' method="POST">
-              {% csrf_token %}
-              <button type="submit" name="delete-task" class="delete-task">Delete &#10005;</button>
-            </form>
-          {% endif %}
-          </div>
         {% endif %}
+            {% if task.owner == user %}
+              <form action='/task/delete/{{task.id}}' method="POST">
+                {% csrf_token %}
+                <button type="submit" name="delete-task" class="delete-task">Delete &#10005;</button>
+              </form>
+            {% endif %}
+          </div>
       {% endfor %}
     {% else %}
       <h2>No tasks to show &#128554;</h2>
     {% endif %}
+  </div>
   <div id="new-task-form">
     <form action="/task/create" method="POST" class="create-task">
       {% csrf_token %}
@@ -62,6 +57,7 @@
       <button type="submit" class="create-task-submit">Add Task &#128204;</button>
     </form>
   </div>
+</div>
 {% else %}
 <a href='/user/logout' class='logout'></a>
 <h1>Dollaborate &#128588;</h1>
@@ -88,6 +84,8 @@
 
 <div id="backdrop"></div>
 </div>
+<footer>
+</footer>
 
 <!-- javascript to slide in registration form for new users -->
 <script type="text/javascript">

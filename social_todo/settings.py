@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'splash.apps.SplashConfig',
     'tasks.apps.TasksConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -67,9 +68,6 @@ TEMPLATES = [
             ],
         },
     },
-]
-TEMPLATE_DIRS = [
-    os.path.join(BASE_DIR, 'templates')
 ]
 
 WSGI_APPLICATION = 'social_todo.wsgi.application'
