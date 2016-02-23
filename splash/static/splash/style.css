@@ -1,0 +1,245 @@
+/*fits elements of display boxes properly within them*/
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*makes the website use a dope font and clean UI*/
+body {
+  font-family: 'Nunito', sans-serif;
+  color: #384047;
+  background-color: #eeeeee;
+}
+
+/*centers elements of the body*/
+.container{
+  text-align: center;
+}
+
+/*styles the register and new task forms to slide in*/
+#register, #new-task-form {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/*backdrop that will fade*/
+#backdrop {
+    display: none;
+    opacity:0.8;
+    background-color: rgba(0,0,0,0.4);
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+}
+
+/*styles each task list item, login, new task, and sign up forms*/
+.tasks-list-item, .login {
+  text-align: center;
+  width: 500px;
+  margin: 10px auto;
+  padding: 20px 20px;
+  background: #f4f7f8;
+  border-radius: 8px;
+  box-shadow: 10px 10px #cccccc;
+  margin-bottom: 30px;
+}
+
+.register {
+  text-align: center;
+  width: 500px;
+  margin: 10px auto;
+  padding: 20px 20px;
+  background: #f4f7f8;
+  border-radius: 8px;
+  margin-top: 80px;
+}
+
+.create-task {
+  text-align: center;
+  width: 500px;
+  margin: 5px auto;
+  padding: 5px 20px;
+  background: #f4f7f8;
+  border-radius: 8px;
+}
+
+/*centers headers, task titles & descriptions*/
+.task-title, .task-description, h1, h2, h3 {
+  text-align: center;
+}
+
+/*positions logout link*/
+h4 {
+  margin: 0 0 30px 0;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/*styles input fields*/
+input[type="text"],
+input[type="password"],
+input[type="email"]{
+  background: rgba(255,255,255,0.1);
+  text-align: center;
+  border: none;
+  font-size: 16px;
+  height: auto;
+  margin: 0;
+  outline: 0;
+  padding: 15px;
+  width: 100%;
+  background-color: #e8eeef;
+  color: #8a97a0;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+  margin-bottom: 30px;
+}
+
+/*styles registerInstead and new task form reveal buttons*/
+#registerInstead {
+  padding: 18px 39px 18px 39px;
+  color: #FFF;
+  background-color: #4bc970;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  border-radius: 5px;
+  width: 20%;
+  border: 1px solid #3ac162;
+  border-width: 1px 1px 3px;
+  box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+  margin-top: 50px;
+}
+
+#new-task-button {
+  padding: 18px 39px 18px 39px;
+  color: #FFF;
+  background-color: #4bc970;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  border-radius: 5px;
+  width: 20%;
+  border: 1px solid #3ac162;
+  border-width: 1px 1px 3px;
+  box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+}
+
+/*styles and positions all other buttons*/
+.log-in-submit, .create-task-submit, .sign-up-submit {
+  padding: 18px 39px 18px 39px;
+  color: #FFF;
+  background-color: #4bc970;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  border-radius: 5px;
+  width: 100%;
+  border: 1px solid #3ac162;
+  border-width: 1px 1px 3px;
+  box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+  margin-bottom: 5px;
+}
+
+.delete-task {
+  padding: 19px 39px 18px 39px;
+  color: #FFF;
+  background-color: #ec1b1b;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  border-radius: 50px;
+  width: 100%;
+  border: 1px solid #d31212;
+  border-width: 1px 1px 3px;
+  box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+  margin-bottom: 10px;
+}
+
+.toggle-task {
+    padding: 19px 39px 18px 39px;
+    color: #FFF;
+    background-color: #4bc970;
+    font-size: 18px;
+    text-align: center;
+    font-style: normal;
+    border-radius: 50px;
+    width: 100%;
+    border: 1px solid #3ac162;
+    border-width: 1px 1px 3px;
+    box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+    margin-bottom: 10px;
+}
+
+/*animates hovering and clicking of buttons */
+.delete-task:hover {
+  background-color: #d31212;
+}
+
+.delete-task:active {
+  background-color: #bc1010;
+  transform: translateY(2px);
+}
+
+.toggle-task:hover,
+.log-in-submit:hover,
+.create-task-submit:hover,
+.sign-up-submit:hover,
+#new-task-button:hover,
+#registerInstead:hover {
+  background-color: #3bc463;
+}
+
+.toggle-task:active,
+.log-in-submit:active,
+.create-task-submit:active,
+.sign-up-submit:active,
+#new-task-button:active,
+#registerInstead:active {
+  background-color: #35b059;
+  transform: translateY(2px);
+}
+
+/*style form field labels*/
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+label.light {
+  font-weight: 300;
+  display: inline;
+}
+
+/*ensures proper size of forms*/
+@media screen and (min-width: 480px) {
+
+  form {
+    max-width: 480px;
+  }
+
+}
+
+/*enables slide in animation*/
+@-webkit-keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
