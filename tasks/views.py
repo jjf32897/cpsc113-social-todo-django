@@ -20,7 +20,10 @@ def create(request):
             for x in range(1, 4):
                 if User.objects.filter(username=data['collaborator' + str(x)]).exists():
                     task.collaborators.add(User.objects.get(username=data['collaborator' + str(x)]))
-
+        else:
+            newTaskForm = NewTaskForm()
+            return render(request, 'splash/index.html', {'errors': 'Fill out all task information', 'new_task': newTaskForm})
+            
     return HttpResponseRedirect('/')
 
 # deletes a task

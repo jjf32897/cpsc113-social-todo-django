@@ -14,7 +14,7 @@ def index(request):
 
         # finds the tasks where the current user is the owner or a collaborator
         tasks = Task.objects.filter(Q(owner=request.user) | Q(collaborators=request.user)).distinct()
-        return render(request, 'splash/index.html', {'user': request.user, 'new_task': newTaskForm, 'tasks': tasks})
+        return render(request, 'splash/index.html', {'new_task': newTaskForm, 'tasks': tasks})
 
     else:
         registrationForm = RegistrationForm()
