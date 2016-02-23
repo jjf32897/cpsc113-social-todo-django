@@ -72,6 +72,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'social_todo.wsgi.application'
 
+# defines properties for email functionality
+EMAIL_USE_TLS = True
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+EMAIL_HOST_USER = 'cpsc113.todo.notification'
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASS']
+DEFAULT_EMAIL_FROM = os.environ['EMAIL_ADDRESS']
+
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases

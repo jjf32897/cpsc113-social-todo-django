@@ -21,8 +21,6 @@ def create(request):
                 if User.objects.filter(username=data['collaborator' + str(x)]).exists():
                     task.collaborators.add(User.objects.get(username=data['collaborator' + str(x)]))
 
-            task.save()
-
     return HttpResponseRedirect('/')
 
 # deletes a task
@@ -39,9 +37,15 @@ def toggle(request, task_id):
         task = Task.objects.get(id=task_id)
         if task.isComplete == True:
             task.isComplete = False
+        
+        # if the task is being completed, an email is sent to all other collaborators
         else:
-            # for x in range(1, 4):
-            # send_mail('Your task has been complete!', 'Your task ' + task.title + ' has been completed!', 'dollaborate@gmail.com', [task.collaborators[x].email], fail_silently=False)
+            for collaborator in task.collaborators.all():
+                if collaborator.username != request.user.username:
+                    send_mail('Your task has been completed!', 'Your task \"' + task.title + '\" has been completed by ' + request.user.first_name + '!', 'cpsc113.todo.notification@gmail.com', [collaborator.username], fail_silently=True)
+                else:
+                    send_mail('Your task has been completed!', 'Your task \"' + task.title + '\" has been completed by ' + request.user.first_name + '!', 'cpsc113.todo.notification@gmail.com', [task.owner.username], fail_silently=True)
+                
             task.isComplete = True
 
         task.save()
