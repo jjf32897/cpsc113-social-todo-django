@@ -5,24 +5,35 @@ from social_todo.forms import NewTaskForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 
+# function to render the task dashboard with errors
+def returnErrors(request, errors):
+    newTaskForm = NewTaskForm()
+    return render(request, 'splash/index.html', {'new_task': newTaskForm, 'errors': errors})
+
 # handles task creation
 def create(request):
     if request.method == 'POST':
         form = NewTaskForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-
-            # makes a task with the submitted information and the current user
-            task = Task(owner=request.user, title=data['title'], description=data['description'])
-            task.save()
-
-            # adds collaborators 1, 2 and 3 by finding the user associated with the submitted email
-            for x in range(1, 4):
-                if User.objects.filter(username=data['collaborator' + str(x)]).exists():
-                    task.collaborators.add(User.objects.get(username=data['collaborator' + str(x)]))
+            if len(data['title']) > 500:
+                return returnErrors(request, 'Task title too long')
+            
+            elif len(data['description']) > 5000:
+                return returnErrors(request, 'Task description too long')
+            
+            else:
+                # makes a task with the submitted information and the current user
+                task = Task(owner=request.user, title=data['title'], description=data['description'])
+                task.save()
+    
+                # adds collaborators 1, 2 and 3 by finding the user associated with the submitted email
+                for x in range(1, 4):
+                    if User.objects.filter(username=data['collaborator' + str(x)]).exists():
+                        task.collaborators.add(User.objects.get(username=data['collaborator' + str(x)]))
+        
         else:
-            newTaskForm = NewTaskForm()
-            return render(request, 'splash/index.html', {'errors': 'Fill out all task information', 'new_task': newTaskForm})
+            return returnErrors(request, 'Fill out all task information')
             
     return HttpResponseRedirect('/')
 

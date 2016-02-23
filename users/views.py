@@ -5,6 +5,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.core.urlresolvers import reverse
+
+# function to render the homepage with errors
+def returnErrors(request, errors):
+    registrationForm = RegistrationForm()
+    loginForm = LoginForm()
+    return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': errors})
 
 # handles logging a user in
 def login(request):
@@ -17,19 +24,13 @@ def login(request):
                 auth_login(request, user)
                 return HttpResponseRedirect('/')
             else:
-                registrationForm = RegistrationForm()
-                loginForm = LoginForm()
-                return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Invalid password'})
+                return returnErrors(request, 'Invalid password')
 
         else:
-            registrationForm = RegistrationForm()
-            loginForm = LoginForm()
-            return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Invalid password'})
+            return returnErrors(request, 'Invalid password')
 
     else:
-        registrationForm = RegistrationForm()
-        loginForm = LoginForm()
-        return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Invalid email address'})
+        return returnErrors(request, 'Invalid email address')
 
 # handles registering a user
 def register(request):
@@ -38,34 +39,24 @@ def register(request):
         if form.is_valid():
             data = form.cleaned_data
             if len(data['fl_name']) > 50:
-                registrationForm = RegistrationForm()
-                loginForm = LoginForm()
-                return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Name too long'})
+                return returnErrors(request, 'Name too long')
 
             if len(data['password']) > 50:
-                registrationForm = RegistrationForm()
-                loginForm = LoginForm()
-                return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Password too long'})
+                return returnErrors(request, 'Password too long')
 
             if data['password'] == data['password_confirmation']:
                 if User.objects.filter(username=data['email']).exists():
-                    registrationForm = RegistrationForm()
-                    loginForm = LoginForm()
-                    return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Account with this email already exists!'})
+                    return returnErrors(request, 'Account with this email already exists!')
                 else:
                     user = User.objects.create_user(data['email'], '', data['password'], first_name=data['fl_name'])
                     user = authenticate(username=data['email'], password=data['password'])
                     auth_login(request, user)
                     return HttpResponseRedirect('/')
             else:
-                registrationForm = RegistrationForm()
-                loginForm = LoginForm()
-                return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Passwords do not match'})
+                return returnErrors(request, 'Passwords do not match')
 
         else:
-            registrationForm = RegistrationForm()
-            loginForm = LoginForm()
-            return render(request, 'splash/index.html', {'login': loginForm, 'register': registrationForm, 'errors': 'Fill out all fields'})
+            return returnErrors(request, 'Fill out all fields')
 
     return HttpResponseRedirect('/')
 
